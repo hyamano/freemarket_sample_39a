@@ -105,12 +105,13 @@ ActiveRecord::Schema.define(version: 2018_12_13_110105) do
   end
 
   create_table "shipping_methods", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.integer "burden_fee", null: false
+    t.string "burden_fee", null: false
     t.string "days_to_arrival", null: false
     t.string "prefecuture", null: false
     t.bigint "item_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "shipping_methods", null: false
     t.index ["item_id"], name: "index_shipping_methods_on_item_id"
   end
 

@@ -1,7 +1,7 @@
 .single-container
   %header.single-header
     %h1
-      %a{href: "mercaries#index"}
+      %a{href: "items#index"}
         = image_tag("/images/logo.svg", height: "49",width: "185")
   %main.single-main
     %section.single-main__content
@@ -12,69 +12,130 @@
         = form_for @item do |f|
           .single-main__content__form__item
             %h3.single-main__content__form__item__title 出品画像
+            %span.form-yes4__label-req 必須
             %p 最大４枚までアップロードできます
             = f.fields_for :images do |fini|
               .single-main__content__form__item__image
-                = fini.label :image, multiple: "true",class:"upload-box" do
+                = fini.label :image, class:"upload-box" do
                   画像はこちら
-                  = fini.file_field :image, onchange:"previewFile()", class: 'hidden'
-                  = image_tag "", height:"140", width:"140",class: 'item_image'
+                  = fini.file_field :image, onchange:"previewFiles()", multiple:"true",class: 'hidden'
+                  = image_tag :"",height:"120",width:"120",name:"preview0",class:"preview"
+                  = image_tag :"",height:"120",width:"120",name:"preview1",class:"preview"
+                  = image_tag :"",height:"120",width:"120",name:"preview2",class:"preview"
+                  = image_tag :"",height:"120",width:"120",name:"preview3",class:"preview"
           .single-main__content__form__item
             .single-main__content__form__item__detail
               %label 商品名
+              %span.form-yes4__label-req 必須
               %div
                 = f.text_field :name, class:"input-name", placeholder: "商品名（必須40文字まで）"
             .single-main__content__form__item__detail
               %label 商品の説明
+              %span.form-yes4__label-req 必須
               = f.text_area :detail,class:"content-detail", rows:"5", placeholder:"商品の説明（必須 1,000文字以内）（色、素材、重さ、定価、注意点など）例）2010年頃に1万円で購入したジャケットです。ライトグレーで傷はありません。あわせやすいのでおすすめです。"
           .single-main__content__form__item.clearfix
             %h4.item__sub 商品の詳細
             .single-main__content__form__item__select
               .single-main__content__form__item__detail
                 %label カテゴリー
+                %span.form-yes4__label-req 必須
                 %div
                   .select-wrap
-                    = f.select :lcategory_id, Lcategory.all.map{|o| [o.name, o.id]},prompt:"---"
+                    = f.select :lcategory_id do
+                      %option{value:"" } ---
+                      %option{value:"レディース"}レディース
+                      %option{value:"メンズ"}メンズ
+                      %option{value:"本・音楽・ゲーム"}本・音楽・ゲーム
+                    = fa_icon 'angle-down'
                 %div
                   .select-wrap
-                    = f.select :mcategory_id, Mcategory.all.map{|o| [o.name, o.id]},prompt:"---"
+                    = f.select :mcategory_id do
+                      %option{value:"" } ---
+                      %option{value:"トップス","data-val" => "レディース"}トップス
+                      %option{value:"スカート","data-val" => "レディース"}スカート
+                      %option{value:"ワンピース","data-val" => "レディース"}ワンピース
+                      %option{value:"トップス","data-val" => "メンズ"}トップス
+                      %option{value:"ジャケット/アウター","data-val" => "メンズ"}ジャケット/アウター
+                      %option{value:"パンツ","data-val" => "メンズ"}パンツ
+                      %option{value:"本","data-val" => "本・音楽・ゲーム"}本
+                      %option{value:"漫画","data-val" => "本・音楽・ゲーム"}漫画
+                      %option{value:"雑誌","data-val" => "本・音楽・ゲーム"}雑誌
+                    = fa_icon 'angle-down'
                 %div
                   .select-wrap
-                    = f.select :scategory_id, Scategory.all.map{|o| [o.name, o.id]},prompt:"---"
+                    = f.select :scategory_id do
+                      %option{value:"" } ---
+                      %option{value:"ポロシャツ","data-val" => "トップス"}ポロシャツ
+                      %option{value:"キャミソール","data-val" => "トップス"}キャミソール
+                      %option{value:"ミニスカート","data-val" => "スカート"}ミニスカート
+                      %option{value:"ひざ丈スカート","data-val" => "スカート"}ひざ丈スカート
+                      %option{value:"ミニワンピース","data-val" => "ワンピース"}ミニワンピース
+                      %option{value:"ロングワンピース","data-val" => "ワンピース"}ロングワンピース
+                    = fa_icon 'angle-down'
               .single-main__content__form__item__detail
                 %label サイズ
+                %span.form-yes4__label-req 必須
                 %div
                   .select-wrap
                     = f.select :size,[["L","L"],["M","M"],["S","S"]],prompt:"---"
+                    = fa_icon 'angle-down'
+              .single-main__content__form__item__detail
+                %label ブランド
+                %span.form-yes4__label-any 任意
+                %div
+                  .select-wrap
+                    = f.text_field :brand, class:"input-name",placeholder: "例)シャネルなど"
               .single-main__content__form__item__detail
                 %label 商品の状態
+                %span.form-yes4__label-req 必須
                 %div
                   .select-wrap
                     = f.select :condition,[["新品、未使用","新品、未使用"]],prompt:"---"
+                    = fa_icon 'angle-down'
           = f.fields_for :shipping_method do |fin|
             .single-main__content__form__item.clearfix
               %h4.item__sub 配送について
               .single-main__content__form__item__select
                 .single-main__content__form__item__detail
                   = fin.label :"配送料の負担"
+                  %span.form-yes4__label-req 必須
                   %div
                     .select-wrap
-                      = fin.select :burden_fee,[["送料込み(出品者負担)","送料込み(出品者負担)"],["着払い(購入者負担)","着払い(購入者負担)"]],prompt:"---"
-                .single-main__content__form__item__detail
-                  / = fin.label :"配送の方法"
-                  / %div
-                  /   .select-wrap
-                  /     = fin.select :shipping_methods,[["未定","未定"],["クロネコヤマト","クロネコヤマト"]],prompt:"---"
+                      = fin.select :burden_fee do
+                        %option{value:"" } ---
+                        %option{value:"送料込み(出品者負担)"}送料込み(出品者負担)
+                        %option{value:"着払い(購入者負担)"}着払い(購入者負担)
+                      = fa_icon 'angle-down'
+                .single-main__content__form__item__detail--second
+                  = fin.label :"配送の方法"
+                  %span.form-yes4__label-req 必須
+                  %div
+                    .select-wrap
+                      = fin.select :shipping_methods do
+                        %option{value:"" } ---
+                        %option{value:"未定"}未定
+                        %option{value:"らくらくメルカリ便", "data-val" => "送料込み(出品者負担)"}らくらくメルカリ便
+                        %option{value:"ゆうメール", "data-val" => "送料込み(出品者負担)"}ゆうメール
+                        %option{value:"レターパック", "data-val" => "送料込み(出品者負担)"}レターパック
+                        %option{value:"普通郵便（定型、定形外）", "data-val" => "送料込み(出品者負担)"}普通郵便（定型、定形外）
+                        %option{value:"クロネコヤマト", "data-val" => "着払い(購入者負担)"}クロネコヤマト
+                        %option{value:"ゆうパック", "data-val" => "着払い(購入者負担)"}ゆうパック
+                        %option{value:"レターパック", "data-val" => "着払い(購入者負担)"}レターパック
+                      = fa_icon 'angle-down'
                 .single-main__content__form__item__detail
                   = fin.label :"発送元の地域"
+                  %span.form-yes4__label-req 必須
                   %div
                     .select-wrap
                       = fin.select :prefecuture,[["北海道","北海道"]],prompt:"---"
+                      = fa_icon 'angle-down'
                 .single-main__content__form__item__detail
                   = fin.label :"発送までの日数"
+                  %span.form-yes4__label-req 必須
                   %div
                     .select-wrap
                       = fin.select :days_to_arrival,[["1~2日で発送","1~2日で発送"],["3~4日で発送","3~4日で発送"],["5~6日で発送","5~6日で発送"]],prompt:"---"
+                      = fa_icon 'angle-down'
           .single-main__content__form__item.clearfix
             %h4.item__sub 販売価格(300〜9,999,999)
             .single-main__content__form__item__select
@@ -82,16 +143,17 @@
                 %li.sell-price__box
                   %div.clearfix
                     %label.box__left 価格
+                    %span.form-yes4__label-req 必須
                     .box__right
                       ¥
                       %div
-                        = f.text_field :price,class:"input-name", placeholder:"例） 300"
+                        = f.text_field :price,class:"input-price", placeholder:"例） 300"
                 %li.sell-price__box--center.clearfix
                   .sell-price__box--center--left 販売手数料(10%)
                   .sell-price__box--center--right -
                 %li.sell-price__box--bold
                   .sell-price__box--bold--left 販売利益
-                  .sell-price__box--bold--right
+                  .sell-price__box--bold--right -
 
           .single-main__content__form__item
             %div
@@ -106,7 +168,8 @@
                 %a 加盟店規約
                 に同意したことになります。
             = f.submit :"出品する",class:"sell__btn__red"
-            %a.sell__btn__gray{ href:"/items"} もどる
+            = link_to root_path,class:"sell__btn__gray" do
+              もどる
 
   %footer.single-footer
     %nav

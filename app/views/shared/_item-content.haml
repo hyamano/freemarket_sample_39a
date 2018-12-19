@@ -1,11 +1,11 @@
 %section.item-box__content
   %figure.item-box__content__image
-    = image_tag("/images/m61013437077_1.jpg")
+    = image_tag("#{@item.images.first.image}")
   .item-box__content__detail
     %h3.item-box__content__detail__name
-      商品名
+      = @item.name
     .item-box__content__detail__inner
       %h3.item-box__content__detail__inner__price
-        ¥ 値段
+        ¥ #{@item.price}
       %p.item-box__content__detail__inner__tax
         (税込)

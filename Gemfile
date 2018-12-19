@@ -90,3 +90,4 @@ gem "gretel"
 gem 'payjp'
 gem 'carrierwave'
 gem 'recaptcha', require: "recaptcha/rails"
+

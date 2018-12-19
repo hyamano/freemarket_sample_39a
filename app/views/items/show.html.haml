@@ -21,21 +21,14 @@
           .item__content__image__top
             = image_tag("#{@item.images.first.image}",height:"300",width:"300",alt:"")
           .item__content__image__list.clearfix
-            .item__content__image__list__inner
-              = image_tag("#{@item.images.first.image}",height:"75",width:"75",alt:"image01")
-            .item__content__image__list__inner
-              = image_tag("#{@item.images.second.image}",height:"75",width:"75",alt:"image02")
-            .item__content__image__list__inner
-              = image_tag("#{@item.images.third.image}",height:"75",width:"75",alt:"image03")
-            .item__content__image__list__inner
-              = image_tag("#{@item.images.fourth.image}",height:"75",width:"75",alt:"image04")
+            = render partial:"items/thumbnails", collection: @thumbnails
         %table.item__content__table
           %tbody
             %tr
               %th 出品者
               %td
                 = link_to user_path do
-                  = @item.saler_id
+                  = @item.saler.name
                 %div
                   .item-user__rating
                     %i.fa.fa-laugh
@@ -77,7 +70,7 @@
               %td #{@item.shipping_method.burden_fee}
             %tr
               %th 配送の方法
-              %td プルダウンで選択
+              %td #{@item.shipping_method.shipping_methods}
             %tr
               %th 配送元地域
               %td
@@ -86,7 +79,6 @@
             %tr
               %th 発送の目安
               %td #{@item.shipping_method.days_to_arrival}
-
       .item__price
         %span.item__price--bold ¥ #{@item.price}
         %span.item__price__tax (税込)
@@ -176,22 +168,12 @@
     .other-items
       %section.other-items__user
         %h2.other-items__head
-          = link_to 'ユーザーさんのその他の出品',"user-item-page"
+          = link_to "#{@item.saler.name}さんのその他の出品","user-item-page"
         .other-items__contents.clearfix
-          = render partial: 'shared/item-content'
-          = render partial: 'shared/item-content'
-          = render partial: 'shared/item-content'
-          = render partial: 'shared/item-content'
-          = render partial: 'shared/item-content'
-          = render partial: 'shared/item-content'
+          = render partial: 'items/saler_item_content'
       %section.other-items__brand
         %h2.other-items__head
-          = link_to 'ブランド名のその他の出品',"user-item-page"
+          = link_to "#{@item.lcategory.name}のその他の出品","user-item-page"
         .other-items__contents.clearfix
-          = render partial: 'shared/item-content'
-          = render partial: 'shared/item-content'
-          = render partial: 'shared/item-content'
-          = render partial: 'shared/item-content'
-          = render partial: 'shared/item-content'
-          = render partial: 'shared/item-content'
+          = render partial: 'items/category_item_content'
     = render partial: 'shared/footer'

@@ -14,6 +14,10 @@ class ItemsController < ApplicationController
 
   def show
     @item  = Item.find(params[:id])
+
+    @thumbnails = @item.images
+    @same_saler_items = Item.where(saler_id: @item.saler_id).where.not(id: @item.id).first(6)
+    @same_category_items = Item.where(lcategory_id: @item.lcategory_id).where.not(id: @item.id).first(6)
   end
 
 
@@ -32,10 +36,10 @@ class ItemsController < ApplicationController
   def new
     if user_signed_in?
       @item = Item.new
-      4.times {@item.images.build}
+      @item.images.build
       @item.build_shipping_method
     else
-      redirect_to users_new_path
+      redirect_to new_user_path
     end
   end
 
@@ -75,7 +79,7 @@ class ItemsController < ApplicationController
   private
 
   def item_params
-params.require(:item).permit(:name, :price, :detail, :condition, :size, :lcategory_id, :mcategory_id,:scategory_id,:brand, shipping_method_attributes: [:id, :burden_fee, :days_to_arrival, :prefecuture], images_attributes: [:id, :image]).merge(saler_id: current_user.id)
+    params.require(:item).permit(:name, :price, :detail, :condition, :size, :brand, :lcategory_id, :mcategory_id,:scategory_id, shipping_method_attributes: [:id, :burden_fee, :shipping_methods, :days_to_arrival, :prefecuture], images_attributes: [:id, :image]).merge(saler_id: current_user.id)
   end
 
 end

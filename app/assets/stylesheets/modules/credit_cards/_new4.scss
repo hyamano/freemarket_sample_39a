@@ -76,11 +76,15 @@
     background-color: #ea352d;
     color: white;
     border-radius: 2px;
-    padding: 3px;
+    padding: 2px 4px;
+    vertical-align: top;
+    margin-left: 4px;
+    font-weight: bold;
   }
   &__label-any{
     @extend .form-yes2__label-req;
     background-color: gray;
+    margin-left: 4px;
   }
   &__n{
     border-radius: 5px;

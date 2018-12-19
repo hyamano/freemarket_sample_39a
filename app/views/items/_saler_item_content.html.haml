@@ -1,0 +1,12 @@
+- for i in 0..5 do
+  %section.item-box__content
+    %figure.item-box__content__image
+      = image_tag("#{@same_saler_items[i].images.first.image}")
+    .item-box__content__detail
+      %h3.item-box__content__detail__name
+        = @same_saler_items[i].name
+      .item-box__content__detail__inner
+        %h3.item-box__content__detail__inner__price
+          ¥ #{@same_saler_items[i].price}
+        %p.item-box__content__detail__inner__tax
+          (税込)

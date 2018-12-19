@@ -2,7 +2,7 @@
   .header-inner
     .logo-bar
       %h1.logo
-        %a{href: "https://www.mercari.com/jp/"}
+        = link_to root_path do
           = image_tag("/images/logo.svg",alt: "mercari", height: "36", width: "134")
       %form.header-form{ action:"#"}
         %input.form__input{ placeholder: "キーワードから探す", type: "search"}
